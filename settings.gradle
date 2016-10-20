@@ -1,0 +1,4 @@
+rootProject.name = 'framework'
+include 'service'
+include 'app-api'
+

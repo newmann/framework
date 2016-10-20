@@ -1,0 +1,30 @@
+{
+  "name": "framework",
+  "homepage": "https://github.com/newmann/framework",
+  "authors": [
+    "newmann <newmannhu@qq.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#^1.5.8",
+    "restangular": "^1.5.2",
+    "angular-cookies": "^1.5.8",
+    "angular-sanitize": "^1.5.8",
+    "angular-touch": "^1.5.8",
+    "angular-bootstrap": "^2.1.4",
+    "angular-ui": "^0.4.0",
+    "angular-ui-router": "^0.3.1",
+    "oclazyload": "^1.0.9",
+    "angular-ui-select": "^0.19.4",
+    "angular-file-upload": "^2.3.4"
+  }
+}
