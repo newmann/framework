@@ -12,6 +12,8 @@ public interface IUserService {
 
     User selectUserByPrimaryKey(String id);
 
+    User selectUserByPhone(String phone);
+
     @Transactional
     int insertSimpleUser(User user);
 

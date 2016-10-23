@@ -82,7 +82,11 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         assetsPath: 'static/assets',
         globalPath: 'static/assets/global',
         layoutPath: 'static/assets/layouts/layout',
-        tokenCookieName: 'beiyelinClient'
+        tokenCookieName: 'beiyelinClient',
+        responseStatus:{
+            RESULT_OK:"ok",
+            RESULT_ERROR:"err"
+        }
     };
 
     $rootScope.settings = settings;
@@ -117,17 +121,6 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
 }]);
 
 
-/* Setup Layout Part - Sidebar */
-MetronicApp.controller('SidebarController', ['$scope', function($scope) {
-    // $scope.$on('$viewContentLoaded', function(event) {
-    //     Layout.initSidebar(); // init sidebar
-    // });
-    console.info("MetronicApp SideController..");
-    $scope.$on('$includeContentLoaded', function() {
-        Layout.initSidebar(); // init sidebar
-    });
-
-}]);
 
 /* Setup Layout Part - Quick Sidebar */
 MetronicApp.controller('QuickSidebarController', ['$scope', function($scope) {
@@ -162,7 +155,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     console.info("MatronicApp state config...");
     // Redirect any unmatched url
     // $urlRouterProvider.otherwise("/dashboard.html");
-    $urlRouterProvider.otherwise("/public/login");
+    $urlRouterProvider.otherwise("/public/frame/login");
 
     $stateProvider
         .state('public',{
@@ -170,30 +163,57 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             url: "/public",
             views:{
                 "MainFramework":{
-                    templateUrl: "static/admin/tpl/logout-framework.html"
+                    templateUrl: "static/admin/tpl/public-framework.html"
                 }
             }
 
         })
-        .state('public.login',{
+        .state('public.frame',{
+            abstract: true,
+            url: "/frame",
+            views:{
+                "LogoutHeader":{
+                    templateUrl: "static/admin/tpl/public-header.html",
+                    controller: "LogoutHeaderController",
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'MetronicApp',
+                                insertBefore: '#ng_load_plugins_after',
+                                files: [
+                                    'static/admin/js/controllers/LogoutHeaderController.js'
+                                ]
+                            });
+                        }]
+                    }
+
+                },
+                "PageContent":{
+                    templateUrl: "static/admin/tpl/public-page-content.html"
+                },
+                "Footer":{
+                    templateUrl: "static/admin/tpl/footer.html",
+                    controller: "FooterController",
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'MetronicApp',
+                                insertBefore: '#ng_load_plugins_after',
+                                files: [
+                                    'static/admin/js/controllers/FooterController.js'
+                                ]
+                            });
+                        }]
+                    }
+                }
+
+            }
+
+        })
+
+        .state('public.frame.login',{
                 url: "/login",
                 views: {
-                    "LogoutHeader":{
-                        templateUrl: "static/admin/tpl/logout-header.html",
-                        controller: "LogoutHeaderController",
-                        resolve: {
-                            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                                return $ocLazyLoad.load({
-                                    name: 'MetronicApp',
-                                    insertBefore: '#ng_load_plugins_after',
-                                    files: [
-                                        'static/admin/js/controllers/LogoutHeaderController.js'
-                                    ]
-                                });
-                            }]
-                        }
-
-                    },
                     "Content":{
                         templateUrl: "static/admin/user/views/login.html",
                         data: {pageTitle: '登录'},
@@ -212,46 +232,15 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         }
 
                     }
-                    ,"Footer":{
-                        templateUrl: "static/admin/tpl/footer.html",
-                        controller: "FooterController",
-                        resolve: {
-                            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                                return $ocLazyLoad.load({
-                                    name: 'MetronicApp',
-                                    insertBefore: '#ng_load_plugins_after',
-                                    files: [
-                                        'static/admin/js/controllers/FooterController.js'
-                                    ]
-                                });
-                            }]
-                        }
-                    }
 
                 }
             }
         )
 
-        .state('public.signin',{
+        .state('public.frame.signin',{
                 url: "/signin",
                 views: {
-                    "LogoutHeader":{
-                        templateUrl: "static/admin/tpl/logout-header.html",
-                        controller: "LogoutHeaderController",
-                        resolve: {
-                            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                                return $ocLazyLoad.load({
-                                    name: 'MetronicApp',
-                                    insertBefore: '#ng_load_plugins_after',
-                                    files: [
-                                        'static/admin/js/controllers/LogoutHeaderController.js'
-                                    ]
-                                });
-                            }]
-                        }
-
-                    }
-                    ,"Content":{
+                    "Content":{
                         templateUrl: "static/admin/user/views/signin.html",
                         data: {pageTitle: '注册'},
                         controller: "SigninController",
@@ -269,32 +258,14 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         }
 
                     }
-                    ,"Footer":{
-                        templateUrl: "static/admin/tpl/footer.html",
-                        controller: "FooterController",
-                        resolve: {
-                            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                                return $ocLazyLoad.load({
-                                    name: 'MetronicApp',
-                                    insertBefore: '#ng_load_plugins_after',
-                                    files: [
-                                        'static/admin/js/controllers/FooterController.js'
-                                    ]
-                                });
-                            }]
-                        }
-                    }
                 }
             }
         )
-        .state('public.forget',{
+        .state('public.frame.forget',{
                 url: "/forget",
                 views: {
-                    "LogoutHeader":{
-                        templateUrl: "static/admin/tpl/logout-header.html"
-                    }
-                    ,"Content":{
-                        templateUrl: "static/admin/views/forget.html",
+                    "Content":{
+                        templateUrl: "static/admin/user/views/forget-password.html",
                         data: {pageTitle: '忘记密码'},
                         controller: "ForgetController",
                         resolve: {
@@ -303,35 +274,89 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                                     name: 'MetronicApp',
                                     insertBefore: '#ng_load_plugins_after',
                                     files: [
-                                        'static/admin/js/controllers/ForgetController.js'
+                                        'static/admin/user/controllers/ForgetController.js'
                                     ]
                                 });
                             }]
                         }
 
                     }
-                    ,"Footer":{
-                        templateUrl: "static/admin/tpl/footer.html"
-                    }
                 }
             }
         )
 
-// WORK STATE 暂时不处理
-/*
         .state('work',{
             abstract: true,
             url: "/work",
             views:{
                 "MainFramework":{
-                    templateUrl: "static/admin/tpl/login-framework.html"
+                    templateUrl: "static/admin/tpl/work-framework.html"
                 }
+            }
+
+        })
+        .state('work.frame',{
+            abstract: true,
+            url: "/frame",
+            views:{
+                "Header":{
+                    templateUrl: "static/admin/tpl/work-header.html",
+                    controller: "WorkHeaderController",
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'MetronicApp',
+                                insertBefore: '#ng_load_plugins_after',
+                                files: [
+                                    'static/admin/js/controllers/WorkHeaderController.js'
+                                ]
+                            });
+                        }]
+                    }
+
+                },
+                "Sidebar":{
+                    templateUrl: "static/admin/tpl/work-sidebar.html",
+                    controller: "WorkSidebarController",
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'MetronicApp',
+                                insertBefore: '#ng_load_plugins_after',
+                                files: [
+                                    'static/admin/js/controllers/WorkSidebarController.js'
+                                ]
+                            });
+                        }]
+                    }
+
+                },
+
+                "PageContent":{
+                    templateUrl: "static/admin/tpl/work-page-content.html"
+                },
+                "Footer":{
+                    templateUrl: "static/admin/tpl/footer.html",
+                    controller: "FooterController",
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'MetronicApp',
+                                insertBefore: '#ng_load_plugins_after',
+                                files: [
+                                    'static/admin/js/controllers/FooterController.js'
+                                ]
+                            });
+                        }]
+                    }
+                }
+
             }
 
         })
 
         // Dashboard
-        .state('work.dashboard', {
+        .state('work.frame.dashboard', {
             url: "/dashboard",
             views:{
                 "Content":{
@@ -358,6 +383,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }
             }
         })
+
+// WORK STATE 暂时不处理
+    /*
 
         // AngularJS plugins
         .state('work.fileupload', {

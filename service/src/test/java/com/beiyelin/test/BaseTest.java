@@ -8,8 +8,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:applicationContext.xml"
-        ,"classpath*:spring-mybatis.xml"
-        , "classpath*:spring-shiro.xml"})
+        ,"classpath*:moduleContext.xml"
+        })
 
 //------------如果加入以下代码，所有继承该类的测试类都会遵循该配置，也可以不加，在测试类的方法上///控制事务，参见下一个实例  
 //这个非常关键，如果不加入这个注解配置，事务控制就会完全失效！  

@@ -149,4 +149,10 @@ public class UserService implements IUserService {
 
 		return null;
 	}
+
+	@Override
+	public User selectUserByPhone(String phone) {
+
+		return userMapper.selectByPhone(phone);
+	}
 }

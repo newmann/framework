@@ -6,16 +6,23 @@ angular.module('MetronicApp').factory('UserService', ['$rootScope', 'Restangular
         var baseUser = Restangular.all('user');
 
         var UserService={
+            //获取用户信息
             getUserById : function(userID){
-                return Restangular.one('user',userID).get();
+                return baseUser.one('get',userID).get();
             },
-            login: function(userName,password){
+            //登录验证
+            login: function(loginData){
                 console.log("Call UserService.login...");
                 // return baseUser.one('login',{username:userName,password:password}).put();
-                return baseUser.all('login').post({userName:userName,password:password});
+                return baseUser.all('login').post(loginData);
             },
-            signin: function(email,userName,password){
-                return baseUser.all('signin').post({email:email,userName:userName,password:password});
+            //注册
+            signin: function(signinForm){
+                return baseUser.all('signin').post(signinForm);
+            },
+            //注册手机号重复重复性检查
+            checkSigninPhone:function(phone){
+                return baseUser.one('checkSigninPhone',phone).get();
             }
         };
         return UserService;

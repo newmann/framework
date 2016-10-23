@@ -53,4 +53,5 @@ public interface UserMapper {
 
 
     User selectByUserName(String username);
+    User selectByPhone(String phone);
 }

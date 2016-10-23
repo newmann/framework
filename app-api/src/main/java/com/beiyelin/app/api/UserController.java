@@ -24,9 +24,9 @@ public class UserController {
 	private IUserService userService;
 
 	@PermissionControl(UserPermissionCST.READ)
-	@RequestMapping(value="/{userID}",method=RequestMethod.GET)
+	@RequestMapping(value="/get/{userID}",method=RequestMethod.GET)
 	public ResponseBaseStructure getUserbyID(@PathVariable("userID") String userID){
-        logger.info("开始去用户数据-->userID:" + userID);
+        logger.info("开始取用户数据-->userID:" + userID);
 		ResponseBaseStructure result;
 		User user= userService.selectUserByPrimaryKey(userID);
 		if(user == null){
@@ -38,11 +38,24 @@ public class UserController {
 		return result;
 	}
 
-	@PostMapping(value="/login")
-	public ResponseBaseStructure login(@RequestBody LoginForm loginForm){
-		logger.info("开始登录验证，提交的数据为-->signinForm:" + loginForm.toString());
+	@RequestMapping(value="/checkSigninPhone/{phone}",method=RequestMethod.GET)
+	public ResponseBaseStructure checkSigninPhone(@PathVariable("phone") String phone){
+		logger.info("开始验证手机号-->signin phone:" + phone);
+		ResponseBaseStructure result;
+		User user= userService.selectUserByPhone(phone);
+		if(user == null){
+			result = new ResponseNotFound("手机号[" + phone +"]没有被使用。");
+		}else{
+			result = new ResponseOK("手机号[" + phone +"]已经被使用。");
+		}
+		return result;
+	}
 
-		StatelessTokenResponse tokenResponse = userService.loginAndGetToken(loginForm.getUserName(),loginForm.getPassword());
+	@PostMapping(value="/login")
+	public ResponseBaseStructure login(@RequestBody User loginUser){
+		logger.info("开始登录验证，提交的数据为: " ,loginUser);
+
+		StatelessTokenResponse tokenResponse = userService.loginAndGetToken(loginUser.getUserName(),loginUser.getPassword());
 
 		if (tokenResponse != null) {
 			return new ResponseOK(tokenResponse);
@@ -53,14 +66,14 @@ public class UserController {
 	}
 
 	@PostMapping(value="/signin")
-	public ResponseBaseStructure signin(@RequestBody SigninForm signinForm){
-		logger.info("开始登录验证，提交的数据为-->signinForm:" + signinForm.toString());
+	public ResponseBaseStructure signin(@RequestBody User user){
+		logger.info("开始注册账户，提交的数据为-->signinForm:", user);
 		try {
-			User user = new User();
+//			User user = new User();
 			user.setId(UUID.randomUUID().toString());
-			user.setUsername(signinForm.getUserName());
-			user.setEmail(signinForm.getEmail());
-			user.setPassword(signinForm.getPassword());
+//			user.setUserName(signinForm.getUserName());
+//			user.setEmail(signinForm.getEmail());
+//			user.setPassword(signinForm.getPassword());
 
 			int addResponse = 0;
 			addResponse = userService.insertSimpleUser(user);

@@ -51,9 +51,17 @@ Login page
   height: 43px;
   color: #8290a3;
   border: 1px solid #dde3ec; }
+/* modified by hxs 2016.10.21
   .login .content .form-control:focus,
   .login .content .form-control:active {
-    border: 1px solid #c3ccda; }
+    border: 1px solid #c3ccda; }*/
+  .login .content .form-control:focus,
+  .login .content .form-control:active {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(147, 161, 187, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(147, 161, 187, 0.6); }
+
   .login .content .form-control::-moz-placeholder {
     color: #8290a3;
     opacity: 1; }

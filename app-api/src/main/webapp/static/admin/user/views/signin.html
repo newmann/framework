@@ -1,24 +1,109 @@
 <div class="login">
     <div class="content">
     <!-- BEGIN REGISTRATION FORM -->
-    <form class="login-form" novalidate ng-submit="signin()">
+    <form class="login-form" name = "signinForm" novalidate="novalidate">
         <h3 class="font-green">注册</h3>
         <div class="form-group">
             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-            <label class="control-label">注册邮箱：</label>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="Email" name="email" ng-model="signin.email" /> </div>
+            <label class="control-label" for="phone">手机号：</label>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input type="num" id="phone" ng-model="signinData.phone" name="phone" class="form-control  placeholder-no-fix" placeholder="Phone Number" required ng-minlength="11" ng-maxlength="11" check-signin-phone>
+                        <span class="input-group-addon" >
+                            <span class="glyphicon glyphicon-edit" ng-show="signinForm.phone.$invalid"/>
+                            <span class="glyphicon glyphicon-check" ng-show="signinForm.phone.$valid"/>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <button class="btn btn-default" type="button" ng-disabled="signinForm.phone.$invalid">发送验证码</button>
+                </div>
+            </div>
+
+            <div class="alert alert-danger" ng-show="signinForm.phone.$error.checkSigninPhone">
+                <strong>请注意！</strong>
+                该手机号已注册过，可直接登录。
+            </div>
+            <div class="alert alert-danger" ng-show="signinForm.phone.$touched && !signinForm.phone.$error.phone && (signinForm.phone.$error.required || signinForm.phone.$error.minlength || signinForm.phone.$error.maxlength)">
+                <strong>请注意！</strong>
+                请输入正确的手机号。
+            </div>
+            <div class="form-group">
+                <label for="checkCode">验证码:</label>
+                <div class="input-group">
+                    <input type="text" id="checkCode" ng-model="signinData.checkCode" placeholder="Verification Code" class="form-control  placeholder-no-fix" name="checkCode" required>
+                    <span class="input-group-addon" >
+                        <span class="glyphicon glyphicon-edit" ng-show="signinForm.checkCode.$invalid"/>
+                        <span class="glyphicon glyphicon-check" ng-show="signinForm.checkCode.$valid"/>
+                    </span>
+                </div>
+
+            </div>
+        </div>
         <div class="form-group">
-            <label class="control-label">用户名：</label>
-            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="userName" ng-model="signin.userName" /> </div>
+            <label class="control-label" for="userName">用户名：</label>
+            <div class="input-group">
+                <input class="form-control placeholder-no-fix" type="text" id="userName" autocomplete="off" placeholder="User Name" name="userName" ng-model="signinData.userName" required ng-pattern="/^[^#]*$/">
+                <span class="input-group-addon" >
+                        <span class="glyphicon glyphicon-edit" ng-show="signinForm.userName.$invalid"/>
+                        <span class="glyphicon glyphicon-check" ng-show="signinForm.userName.$valid"/>
+                    </span>
+
+            </div>
+            <div class="alert alert-danger" ng-show="signinForm.userName.$error.pattern">
+                <strong>请注意！</strong>
+                用户名不能带#号。
+            </div>
+            <div class="alert alert-danger" ng-show="signinForm.userName.$error.required && signinForm.userName.$touched">
+                <strong>请注意！</strong>
+                用户名不能为空。
+            </div>
+        </div>
         <div class="form-group">
-            <label class="control-label">密码：</label>
-            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password" ng-model="signin.password"/> </div>
+            <label class="control-label" for="password">密码：</label>
+            <div class="input-group">
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="password" placeholder="Password" name="password" ng-model="signinData.password" required ng-minlength="6" />
+
+                <span class="input-group-addon" >
+                        <span class="glyphicon glyphicon-edit" ng-show="signinForm.password.$invalid"/>
+                        <span class="glyphicon glyphicon-check" ng-show="signinForm.password.$valid"/>
+                </span>
+
+            </div>
+            <div class="alert alert-danger" ng-show="signinForm.password.$error.minlength && signinForm.password.$touched">
+                <strong>请注意！</strong>
+                密码长度不能少于六位。
+            </div>
+            <div class="alert alert-danger" ng-show="signinForm.password.$error.required && signinForm.password.$touched">
+                <strong>请注意！</strong>
+                密码不能为空。
+            </div>
+        </div>
         <div class="form-group">
-            <label class="control-label">确认密码：</label>
-            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Re-type Your Password" name="rpassword" ng-model="signin.rpassword"/> </div>
+            <label class="control-label" for="rpassword">确认密码：</label>
+            <div class="input-group">
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="rpassword" placeholder="Re-type Your Password" name="rpassword" check-password="password" required ng-model="signinData.rpassword"/>
+
+                <span class="input-group-addon" >
+                        <span class="glyphicon glyphicon-edit" ng-show="signinForm.rpassword.$invalid"/>
+                        <span class="glyphicon glyphicon-check" ng-show="signinForm.rpassword.$valid"/>
+                </span>
+
+            </div>
+            <div class="alert alert-danger" ng-show="signinForm.rpassword.$error.noMatch && signinForm.rpassword.$touched">
+                确认密码与前面输入的密码不一致。
+            </div>
+
+            <div class="alert alert-danger" ng-show="signinForm.rpassword.$error.required && signinForm.rpassword.$touched">
+                <strong>请注意！</strong>
+                请再次输入确认密码。
+            </div>
+        </div>
         <div class="form-group margin-top-20 margin-bottom-20">
             <label class="check">
-                <input type="checkbox" name="tnc" /> 同意
+                <input type="checkbox" name="tnc" ng-model="signinData._tnc" /> 同意
                 <a href="javascript:;"> 服务条款 </a> &
                 <a href="javascript:;"> 网站隐私政策 </a>
             </label>
@@ -26,7 +111,12 @@
         </div>
         <div class="form-actions">
             <!--<button type="button" id="register-back-btn" class="btn btn-default">Back</button>-->
-            <button type="submit" id="register-submit-btn" class="btn btn-success uppercase center-block">立即注册</button>
+            <button type="submit" id="register-submit-btn" class="btn btn-success uppercase center-block"  ng-disabled="signinForm.$invalid || (!signinForm.tnc.$viewValue)" ng-click="signin()">立即注册</button>
+        </div>
+        <div class="form-group">
+            <div ng-class="{true:'alert alert-success',false:'alert alert-danger'}[submitStatus]" ng-show="submited">
+                {{submitMessage}}
+            </div>
         </div>
     </form>
     <!-- END REGISTRATION FORM -->

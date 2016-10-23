@@ -39,7 +39,7 @@ MetronicApp.directive('ngSpinnerBar', ['$rootScope',
             }
         };
     }
-])
+]);
 
 // Handle global LINK click
 MetronicApp.directive('a', function() {
@@ -62,4 +62,45 @@ MetronicApp.directive('dropdownMenuHover', function () {
       elem.dropdownHover();
     }
   };  
+});
+
+//check the input phone number have been used
+MetronicApp.directive('checkSigninPhone', ['$rootScope','$q','UserService',function ($rootScope,$q, UserService) {
+    return {
+        require: 'ngModel',
+        link: function (scope, ele, attrs, ctrl) {
+            ctrl.$asyncValidators.checkSigninPhone = function (modelValue, viewValue) {
+                var d = $q.defer();
+                var checkResponse = UserService.checkSigninPhone(modelValue);
+                checkResponse.then(function (okRes) {
+                    if (okRes.status == $rootScope.settings.responseStatus.RESULT_OK ){
+                        d.reject();
+                    }else{
+                        d.resolve();
+                    }
+                },function(){
+                    d.reject();
+                });
+                return d.promise;
+            }
+        }
+    }
+}]);
+
+//check password
+MetronicApp.directive('checkPassword', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, ele, attrs, ctrl) {
+            var firstPassword = '#' + attrs.checkPassword;
+            // 网上好多例子都掉了$(elem) 美元符号和括号
+            $(ele).add(firstPassword).on('keyup', function () {
+                scope.$apply(function () {
+                    // alert(ele.val());
+                    var v = ele.val()===$(firstPassword).val();
+                    ctrl.$setValidity('noMatch',v);
+                });
+            });
+        }
+    }
 });

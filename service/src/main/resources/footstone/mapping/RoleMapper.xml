@@ -12,9 +12,9 @@
     <result column="RoleCode" jdbcType="VARCHAR" property="rolecode" />
     <result column="RoleName" jdbcType="VARCHAR" property="rolename" />
     <result column="Creator" jdbcType="VARCHAR" property="creator" />
-    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createTime" />
     <result column="Updater" jdbcType="VARCHAR" property="updater" />
-    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="Status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -56,8 +56,8 @@
       Updater, UpdateTime, Status
       )
     values (#{id,jdbcType=VARCHAR}, #{spaceid,jdbcType=VARCHAR}, #{rolecode,jdbcType=VARCHAR}, 
-      #{rolename,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{updater,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      #{rolename,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.beiyelin.service.footstone.model.Role">
@@ -83,13 +83,13 @@
       <if test="creator != null">
         Creator,
       </if>
-      <if test="createtime != null">
+      <if test="createTime != null">
         CreateTime,
       </if>
       <if test="updater != null">
         Updater,
       </if>
-      <if test="updatetime != null">
+      <if test="updateTime != null">
         UpdateTime,
       </if>
       <if test="status != null">
@@ -112,14 +112,14 @@
       <if test="creator != null">
         #{creator,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updater != null">
         #{updater,jdbcType=VARCHAR},
       </if>
-      <if test="updatetime != null">
-        #{updatetime,jdbcType=TIMESTAMP},
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -146,14 +146,14 @@
       <if test="creator != null">
         Creator = #{creator,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null">
-        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        CreateTime = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updater != null">
         Updater = #{updater,jdbcType=VARCHAR},
       </if>
-      <if test="updatetime != null">
-        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      <if test="updateTime != null">
+        UpdateTime = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         Status = #{status,jdbcType=INTEGER},
@@ -172,9 +172,9 @@
       RoleCode = #{rolecode,jdbcType=VARCHAR},
       RoleName = #{rolename,jdbcType=VARCHAR},
       Creator = #{creator,jdbcType=VARCHAR},
-      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      CreateTime = #{createTime,jdbcType=TIMESTAMP},
       Updater = #{updater,jdbcType=VARCHAR},
-      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateTime = #{updateTime,jdbcType=TIMESTAMP},
       Status = #{status,jdbcType=INTEGER}
     where ID = #{id,jdbcType=VARCHAR}
   </update>

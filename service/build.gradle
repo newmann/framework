@@ -16,6 +16,8 @@ dependencies{
         mybatisSpringVersion='1.3.0'
         mapperVersion='3.3.8'
         pagehelperVersion='4.1.4'
+        jedisVersion = '2.8.1'
+        springDataRedisVersion='1.7.4.RELEASE'
     }
 
     compile(
@@ -25,7 +27,9 @@ dependencies{
             "org.mybatis:mybatis-spring:$mybatisSpringVersion",
             "org.mybatis.generator:mybatis-generator-core:1.3.2",
             "com.github.pagehelper:pagehelper:$pagehelperVersion",
-            "tk.mybatis:mapper:$mapperVersion"
+            "tk.mybatis:mapper:$mapperVersion",
+            "redis.clients:jedis:$jedisVersion",
+            "org.springframework.data:spring-data-redis:$springDataRedisVersion"
     )
     mybatisGenerator "org.mybatis.generator:mybatis-generator-core:1.3.2"
     mybatisGenerator "mysql:mysql-connector-java:$mysqlVersion"
